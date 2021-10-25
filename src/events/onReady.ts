@@ -1,4 +1,4 @@
-import Client from '../classes/Client'
+import Client from '../classes/Client.js'
 
 export default function (client: Client) {
   if (client.user) console.log(client.user.username + ' is now online!')

@@ -1,7 +1,7 @@
 import { Message } from 'discord.js'
 
-import Client from '../classes/Client'
-import Query from './../classes/Query'
+import Client from '../classes/Client.js'
+import Query from './../classes/Query.js'
 
 /**
  * @param {import('../classes/Client')} client
