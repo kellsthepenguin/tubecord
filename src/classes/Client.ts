@@ -25,12 +25,12 @@ export default class extends Client {
 
       this.config = {
         token: config.token || process.env.TOKEN || '',
-        prefix: config.prefix || process.env.PREFIX || '!'
+        prefix: config.prefix || process.env.PREFIX || 't!'
       }
     } else {
       this.config = {
         token: process.env.TOKEN || '',
-        prefix: process.env.PREFIX || '!'
+        prefix: process.env.PREFIX || 't!'
       }
     }
 
