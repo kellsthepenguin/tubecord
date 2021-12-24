@@ -1,5 +1,8 @@
 import { readdirSync, statSync } from 'fs'
 import fetch from 'node-fetch'
+import { VideoInfo } from '../types/index.js'
+
+const YOUTUBE_BASE_URL = 'https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v='
 
 // from https://gist.github.com/kethinov/6658166
 export function readRecursively (dirPath: string, fileList: string[] = []) {
@@ -16,7 +19,7 @@ export function readRecursively (dirPath: string, fileList: string[] = []) {
 }
 
 export async function isYoutubeIdValid(videoId: string) {
-  const url = 'https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=' + videoId
+  const url = YOUTUBE_BASE_URL + videoId
 
   const { status } = await fetch(url)
 
@@ -24,4 +27,13 @@ export async function isYoutubeIdValid(videoId: string) {
     return false
   }
   return true
+}
+
+export async function getYoutubeVideoInfo (videoId: string) {
+  const url = YOUTUBE_BASE_URL + videoId
+
+  const res = await fetch(url)
+  const info: VideoInfo = await res.json() as VideoInfo
+  
+  return info
 }
