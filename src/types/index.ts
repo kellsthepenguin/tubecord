@@ -5,8 +5,8 @@ import Client from '../classes/Client'
 
 export interface Config {
   prefix: string
-  token: string
-  [key: string]: string
+  token: string,
+  port: number
 }
 
 export interface Command {

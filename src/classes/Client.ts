@@ -1,9 +1,12 @@
-import path from 'path'
 import { existsSync, readFileSync } from 'fs'
 import { Client } from 'discord.js'
+
 import { readRecursively } from '../utils/index.js'
 import { Command, Config } from '../types/index.js'
 import Queue from './Queue.js'
+
+import path from 'path'
+import express from 'express'
 
 const PATH = path.resolve()
 
@@ -11,6 +14,7 @@ export default class extends Client {
   public config: Config
   public commands: Command[] = []
   public queues = new Map<string, Queue>()
+  private server = express()
 
   constructor () {
     super()
@@ -25,12 +29,14 @@ export default class extends Client {
 
       this.config = {
         token: config.token || process.env.TOKEN || '',
-        prefix: config.prefix || process.env.PREFIX || 't!'
+        prefix: config.prefix || process.env.PREFIX || 't!',
+        port: config.port || parseInt(process.env.PORT!) || 8080
       }
     } else {
       this.config = {
         token: process.env.TOKEN || '',
-        prefix: process.env.PREFIX || 't!'
+        prefix: process.env.PREFIX || 't!',
+        port: parseInt(process.env.PORT!) || 8080
       }
     }
 
@@ -51,7 +57,18 @@ export default class extends Client {
       }
     }
   }
-  public start = (token?: string) => this.login(token || this.config.token)
+
+  initRoutes () {
+    this.server.get('/queues/:id', (req, res) => {
+      // do something
+    })
+  }
+
+  public start = (token?: string) => {
+    this.login(token || this.config.token)
+    this.server.listen(this.config.port)
+  }
+
   public regist = (event = 'ready', exec: any) =>
     this.on(event, (...args) => exec(this, ...args))
 }
