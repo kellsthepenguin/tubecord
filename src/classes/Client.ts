@@ -43,6 +43,7 @@ export default class extends Client {
     if (this.config.token.length < 1) throw new Error('TOKEN not provided')
 
     this.initCommands()
+    this.initRoutes()
   }
 
   async initCommands () {
@@ -59,8 +60,14 @@ export default class extends Client {
   }
 
   initRoutes () {
-    this.server.get('/queues/:id', (req, res) => {
-      // do something
+    this.server.get('/:id/queue/', (req, res) => {
+      const { id } = req.params
+
+      if (!this.queues.has(id)) {
+        return res.json({ error: 'id is not vaild' })
+      }
+
+      res.json(this.queues.get(id))
     })
   }
 
