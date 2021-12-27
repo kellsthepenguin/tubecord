@@ -6,7 +6,7 @@ import Queue from '../classes/Queue.js'
 import { getYoutubeVideoInfo, isYoutubeIdValid } from '../utils/index.js'
 
 export default async function (client: Client, msg: Message, { args }: Query) {
-  if (args.length < 1) return msg.reply('more args required')
+  if (args.length < 1) return msg.reply('인수가 부족합니다.')
   const { guild } = msg
   let queue = client.queues.get(guild!.id)
   const [videoId] = args
@@ -28,10 +28,10 @@ export default async function (client: Client, msg: Message, { args }: Query) {
       title: music.info.title,
       thumbnail: { url: music.info.thumbnail_url }
     })
-    msg.reply('added to queue')
+    msg.reply(':white_check_mark: 큐에 추가했어요!')
     msg.channel.send(embed)
   } else {
-    msg.reply('youtube id is not valid')
+    msg.reply(':x: 비디오 ID가 올바르지 않아요. 올바른 예: `t!play dQw4w9WgXcQ`')
   }
 }
 
